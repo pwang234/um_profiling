@@ -5,6 +5,7 @@ nvprof ./a.out
 
 
  GPU activities:   53.56%  1.48266s        10  148.27ms  141.54ms  166.49ms  vec_inc1(float*, int)
+
                    46.44%  1.28559s        10  128.56ms  122.03ms  148.82ms  vec_inc2(float*, int)
 
       API calls:   77.03%  1.48237s        10  148.24ms  141.50ms  166.46ms  cudaDeviceSynchronize
@@ -22,19 +23,15 @@ nvprof --dependency-analysis  ./a.out
 
 Critical path(%)  Critical path  Waiting time  Name
           71.31%      4.751991s           0ns  <Other>
+
           22.27%      1.484002s           0ns  vec_inc1(float*, int)
+
            5.54%   369.095123ms           0ns  cudaMallocManaged_v6000
+
            0.81%    53.900904ms           0ns  cudaFree
-           0.05%     3.209290ms           0ns  cuDeviceGetAttribute
-           0.01%   898.526000us           0ns  cuDeviceTotalMem_v2
-           0.00%   255.284000us           0ns  cuDeviceGetName
-           0.00%    67.740000us           0ns  cudaStreamDestroy_v5050
-           0.00%    34.768000us           0ns  cudaStreamCreate
-           0.00%    11.853000us           0ns  cuDeviceGetPCIBusId
-           0.00%     2.983000us           0ns  cuDeviceGet
-           0.00%     1.360000us           0ns  cuDeviceGetCount
+
            0.00%            0ns     1.483397s  cudaDeviceSynchronize
-           0.00%            0ns           0ns  cudaLaunchKernel_v7000
+
            0.00%            0ns           0ns  vec_inc2(float*, int)
 
 1. Shows vec_inc2 not really important
