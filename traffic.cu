@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "cuda_profiler_api.h"
 
 #define CUCHK(call) {                                    \
     cudaError_t err = call;                                                    \
@@ -30,18 +29,13 @@ int main(int argc, char *argv[])
     b[i] = 2;
   }
 
-  vec_add<<<n/128, 128>>>(a, b, n);
-  CUCHK(cudaDeviceSynchronize());
-  for (int i = 0; i < n; i++) {
-    a[i] += 1;
+  for (int iter = 0; iter < 2; iter++) {
+    vec_add<<<n/128, 128>>>(a, b, n);
+    CUCHK(cudaDeviceSynchronize());
+    for (int i = 0; i < n; i++) {
+      a[i] += 1;
+    }
   }
-  // cudaProfilerStart();
-  vec_add<<<n/128, 128>>>(a, b, n);
-  CUCHK(cudaDeviceSynchronize());
-  for (int i = 0; i < n; i++) {
-    a[i] += 1;
-  }
-  // cudaProfilerStop();
 
   CUCHK(cudaFree(a));
   CUCHK(cudaFree(b));
